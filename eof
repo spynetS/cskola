@@ -4,9 +4,6 @@
 
 
 int main(){
-  int buf;
-  while(scanf("%d",&buf)==1){
-    printf("%d\n",buf);
-  }
+
   return 0;
 }

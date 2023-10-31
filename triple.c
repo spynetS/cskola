@@ -2,11 +2,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int triple(int a){
+  return a*3;
+}
+
 int main(){
   int value;
   while(scanf("%d",&value)==1){
-    if(value %2 == 0) printf("even\n");
-    else printf("odd\n");
+    printf("%d\n",triple(value));
   }
   return 0;
 }
