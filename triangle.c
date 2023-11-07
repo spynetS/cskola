@@ -54,7 +54,7 @@ int main(){
     if(strcmp(pos,"impossible")==0)
       printf("%s\n",pos);
     else
-      printf("%s %s\n",pos,triangleSidesType(arr[0],arr[1],arr[2]));
+      printf("%s %s\n",pos,triangleSidesType(arr));
   }
   return 0;
 }
