@@ -2,7 +2,7 @@
 
 if [[ $1 == "eof" ]];
 then
-    cp templateEOF.c $2
+    cp templateEOF.c ./lec$2/$3
 else
-    cp template.c $1
+    cp template.c ./lec$1/$2
 fi
