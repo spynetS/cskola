@@ -1,32 +1,55 @@
 // 2023 Alfred Roos
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 void printMatrix(int *src, int size){
-  for(int i = 0 ; i < size*size; i ++){
-    if(i>0&&i % size == 0) printf("\n");
+  for(int i = 0 ; i < size; i ++){
+    if(i>0&&i % (int) pow(size,0.5) == 0) printf("\n");
     printf("%d ",src[i]);
   }
 }
 
-int multRowCol(int *row, int *col, int size){
-  int sum = 0;
+void getRow(int *matrix,int *dst, int size,int pos){
   for(int i = 0; i < size;i ++){
-    sum += row[i]*col[i];
+    int index = i+size*pos;
+    dst[i] = matrix[index];
+  }
+}
+void getCol(int *matrix,int *dst, int size,int pos){
+  for(int i = 0; i < size;i ++){
+    int index = pos+size*i;
+    dst[i] = matrix[index];
+  }
+}
+
+int multiplyRowCol(int *row,int *col,int size){
+  int sum = 0;
+  for(int j = 0; j < size; j ++){
+    sum += row[j]*col[j];
   }
   return sum;
 }
 
 void multiply(int *term1, int *term2, int size,int *sum){
 
+  int count = 0;
   int row[size];
   int col[size];
-  int count = 0;
-  for(int i = 0 ; i < size;i++){
-    row[count] = term1[i];
-  }
 
-  printMatrix(sum,size);
+  for(int i = 0; i < size; i ++){
+    for(int j = 0; j < size; j ++){
+      // get the row from first matrix
+      getRow(term1,row,size,i);
+      // get col from second matrix
+      getCol(term2,col,size,j);
+      //set the sum to the product of the row and colum
+      sum[count] = multiplyRowCol(row,col,size);
+      count++;
+    }
+  }
+  printMatrix(sum,size*size);
+  printf("\n");
 }
 
 int main(){

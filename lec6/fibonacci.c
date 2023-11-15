@@ -1,6 +1,7 @@
 // 2023 Alfred Roos
 #include <stdio.h>
 #include <stdlib.h>
+
 int fibonacci(int n){
   if(n == 0) return 0;
   int prev = 0;
@@ -12,6 +13,7 @@ int fibonacci(int n){
   }
   return curr;
 }
+
 int main(){
   int value;
   while(scanf("%d",&value)>0){
