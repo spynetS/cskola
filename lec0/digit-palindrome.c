@@ -22,11 +22,13 @@ int reverse_digits(int x){
     reverse(buf, reversed);
     return atoi(reversed);
 }
-
+int palindrome(int x){
+  return x == reverse_digits(x);
+}
 int main(){
   int input;
   while(scanf("%d",&input)>0){
-    printf("%d\n", reverse_digits(input));
+    printf("%d is%s palindrome\n",input, palindrome(input) ? "" : " not");
   }
   return 0;
 }
