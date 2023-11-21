@@ -24,14 +24,12 @@ int main()
     return 0;
 }
 
-
 // The sort function puts the elements of the given array in order.
 //
 // The first argument is a pointer to the starting element of the array.
 // The second argument indicates the number of elements in the array.
 void sort(int arr[], int size){
   int count = 0;
-  printf("%d\n",size);
   for(int i = 0; i < size; i ++){
     if(i+1 < size && arr[i] > arr[i+1]){
 
@@ -39,9 +37,10 @@ void sort(int arr[], int size){
       arr[i+1] = arr[i];
       arr[i]=tmp;
 
-      i = i-2;
+
+      i = i>=2? i-2:-1;
     }
-    count ++;
+    count++;
   }
-  printf("cycles: %d\n",count);
+  printf("Counts: %d\n",count);
 }
