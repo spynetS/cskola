@@ -46,6 +46,7 @@ int main(){
 
   struct employee richest = highest_salary(employees, value);
   printf("%s has the highest salary: %d kr\n",richest.name, richest.salary);
+
   struct employee poorest = lowest_salary(employees, value);
   printf("%s has the lowest salary: %d kr\n",poorest.name, poorest.salary);
 
