@@ -61,7 +61,7 @@ int main(){
             printf(" rm [phonenumber]        -- removed record with phonenumber\n");
             printf(" ls                      -- list records\n");
             printf(" find [name/phonenumber] -- prints record with name/phonenumber\n");
-            printf(" exist                   -- exit program\n");
+            printf(" exit                    -- exit program\n");
         }
         else if(strcmp(cmd,"exit") == 0){
             break;
