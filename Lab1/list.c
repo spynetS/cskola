@@ -16,7 +16,7 @@ struct node {
 
 void print_node(struct node* node){
     if(node != NULL)
-        printf("num:%s,name:%s\n",node->phonenumber, node->name);
+        printf("phonenumber: %s; name:%s\n",node->phonenumber, node->name);
 }
 void display(struct node *start){
     struct node* next = start;
