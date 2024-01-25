@@ -12,7 +12,7 @@ int main(){
         fscanf(fptr,"%d",&times);
         fclose(fptr);
     }
-    printf("run #%d\n",times);
+    printf("run #%d\n",times+1);
 
     fptr = fopen("runcount.txt","w");
     fprintf(fptr,"%d",times+1);
