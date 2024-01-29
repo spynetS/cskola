@@ -11,7 +11,7 @@
 int main(){
 
     // the root node
-    struct node *directory = NULL;
+    struct node *directory=NULL;
 
     printf("help for help/ exit to exit\n");
     // program loop
@@ -29,14 +29,30 @@ int main(){
         else if(strcmp(cmd, "rm") == 0){
             char num[11];
             scanf("%s",num);
-            delete_record(&directory,num);
+
+            if(delete_record(&directory,num))
+                delete_record_name(&directory,num);
         }
         else if(strcmp(cmd, "ls") == 0){
             display(directory);
         }
-        else if(strcmp(cmd, "find") == 0){
+        else if (strcmp(cmd, "find") == 0){
 
-            char search_string[60];
+            char search_string[100];
+            scanf("%[^\n]s", search_string);
+
+            struct node **nodes = malloc(sizeof(struct node*)*100);
+            int count = query_directory_list(nodes,directory,search_string,-1);
+
+            for(int i = 0; i < count ; i++){
+                print_node(nodes[i]);
+            }
+
+            free(nodes);
+        }
+        else if(strcmp(cmd, "get") == 0){
+
+            char search_string[100];
             scanf("%s", search_string);
 
             //search for phonenumber, if it is null search of name else not found
@@ -58,9 +74,10 @@ int main(){
         else if(strcmp(cmd,"help") == 0){
             printf("Avalible commands\n");
             printf(" insert                  -- Add new record\n");
-            printf(" rm [phonenumber]        -- removed record with phonenumber\n");
+            printf(" rm [name/phonenumber]   -- removed record with phonenumber or all phonenumbers with that name\n");
             printf(" ls                      -- list records\n");
-            printf(" find [name/phonenumber] -- prints record with name/phonenumber\n");
+            printf(" find [name/phonenumber] -- prints records with name/phonenumber\n");
+            printf(" get [name/phonenumber]  -- prints first record with name/phonenumber\n");
             printf(" exit                    -- exit program\n");
         }
         else if(strcmp(cmd,"exit") == 0){

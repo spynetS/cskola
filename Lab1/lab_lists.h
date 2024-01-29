@@ -55,6 +55,7 @@ int insert_record(struct node **start);
  */
 int delete_record(struct node **start, char* num);
 
+
 /*
  * Queries the directory by phone no. or name
  * Inputs:
@@ -78,5 +79,12 @@ struct node *query_directory(struct node *start, char* num, char *name, int opti
 void delete_directory(struct node **start);
 
 void print_node(struct node* node);
+/*
+** Deletes all records conncted to the name provieded
+** ## alfred added ##
+*/
+int delete_record_name(struct node **start, char* name);
+
+int query_directory_list(struct node** nodes, struct node *start, char* search, int option);
 
 #endif  // LAB_LISTS_H

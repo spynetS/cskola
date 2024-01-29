@@ -15,8 +15,10 @@ struct node {
 
 
 void print_node(struct node* node){
-    if(node != NULL)
-        printf("phonenumber: %s; name:%s\n",node->phonenumber, node->name);
+    if(node != NULL){
+
+        printf("Name: %s; Phonenumber: %s\n",node->name, node->phonenumber);
+    }
 }
 void display(struct node *start){
     struct node* next = start;
@@ -26,6 +28,37 @@ void display(struct node *start){
     }
 }
 
+int query_directory_list(struct node** nodes, struct node *start, char* search, int option){
+    // we go though all the nodes and whether
+    // the option is one or 2 we check the
+    // phonenumber or the name with num/name.
+    // If we find a match we return that node
+    int count = 0;
+    struct node* next = start;
+    while(next != NULL){
+        switch(option){
+            case 1:
+                if(strcmp(next->phonenumber,search)==0){
+                     nodes[count] = next;
+                     count ++;
+                }
+                break;
+            case 2:
+                if(strcmp(next->name,search)==0){
+                     nodes[count] = next;
+                     count ++;
+                }
+                break;
+            default:
+                if(strcmp(next->name,search)==0 || strcmp(next->phonenumber,search) == 0){
+                     nodes[count] = next;
+                     count ++;
+                }
+        }
+        next = next->next;
+    }
+    return count;
+}
 struct node *query_directory(struct node *start, char* num, char *name, int option){
     // we go though all the nodes and whether
     // the option is one or 2 we check the
@@ -51,8 +84,7 @@ struct node *query_directory(struct node *start, char* num, char *name, int opti
 }
 
 int record_exists(struct node *start,char* num){
-    struct node *searched = query_directory(start,num,"",1);
-    return searched != NULL;
+    return query_directory(start,num,"",1) != NULL;
 }
 
 int insert_record(struct node **start){
@@ -62,7 +94,7 @@ int insert_record(struct node **start){
     char phonenumber[PHONENUMBER_SIZE];
 
     printf("Record name: ");
-    scanf("%s",name);
+    scanf("%[^\n]s",name);
     printf("Record phonenumber: ");
     scanf("%s",phonenumber);
 
@@ -86,6 +118,37 @@ int insert_record(struct node **start){
     *start = new;
 
     return 0;
+}
+int delete_record_name(struct node **start, char* name){
+    struct node *next = *start;
+    struct node *prev = NULL;
+    while(next != NULL){
+        // if the phonenumber is the same as the num we set
+        // prevs next to the next next
+        // and free the current next and then return success
+        if(strcmp(next->name,name) == 0){
+            struct node* temp = next;
+            // if it is the first we are deleting
+            // prev will be null then we just set start
+            // to be next next
+            if(prev != NULL){
+                prev->next = next->next;
+            }
+            else {
+                *start = next->next;
+            }
+
+            free(temp->name);
+            free(temp->phonenumber);
+            free(temp);
+        }
+        else{
+            prev = next;
+        }
+        next = next->next;
+    }
+
+    return -1;
 }
 int delete_record(struct node **start, char* num){
     struct node *next = *start;
