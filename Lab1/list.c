@@ -72,6 +72,8 @@ int insert_record(struct node **start){
     }
     // create a new node and set its values from terminal
     struct node *new = malloc(sizeof(struct node));
+    if(new == NULL) return -1; // malloc fail
+
     new->name = malloc(sizeof(char) * strlen(name));
     new->phonenumber = malloc(sizeof(char) * strlen(phonenumber));
     strcpy(new->name,name);
