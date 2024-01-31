@@ -59,7 +59,7 @@ int query_directory_list(struct node** nodes, struct node *start, char* search, 
     }
     return count;
 }
-struct node *query_directory(struct node *start, char* num, char *name, int option){
+struct node *query_directory(struct node *start, char *key, int option){
     // we go though all the nodes and whether
     // the option is one or 2 we check the
     // phonenumber or the name with num/name.
@@ -68,12 +68,12 @@ struct node *query_directory(struct node *start, char* num, char *name, int opti
     while(next != NULL){
         switch(option){
             case 1:
-                if(strcmp(next->phonenumber,num)==0){
+                if(strcmp(next->phonenumber,key)==0){
                     return next;
                 }
                 break;
             case 2:
-                if(strcmp(next->name,name)==0){
+                if(strcmp(next->name,key)==0){
                     return next;
                 }
                 break;
@@ -84,7 +84,7 @@ struct node *query_directory(struct node *start, char* num, char *name, int opti
 }
 
 int record_exists(struct node *start,char* num){
-    return query_directory(start,num,"",1) != NULL;
+    return query_directory(start,num,1) != NULL;
 }
 
 int insert_record(struct node **start){
@@ -94,8 +94,8 @@ int insert_record(struct node **start){
     char phonenumber[PHONENUMBER_SIZE];
 
     printf("Record name: ");
-    scanf("%[^\n]s",name);
-    printf("Record phonenumber: ");
+    scanf("%s",name);
+    printf("\nRecord phonenumber: ");
     scanf("%s",phonenumber);
 
     // if the record exists we free the new node and return -1
@@ -106,8 +106,8 @@ int insert_record(struct node **start){
     struct node *new = malloc(sizeof(struct node));
     if(new == NULL) return -1; // malloc fail
 
-    new->name = malloc(sizeof(char) * strlen(name));
-    new->phonenumber = malloc(sizeof(char) * strlen(phonenumber));
+    new->name = malloc(sizeof(char) * strlen(name)+1);
+    new->phonenumber = malloc(sizeof(char) * strlen(phonenumber)+1);
     strcpy(new->name,name);
     strcpy(new->phonenumber,phonenumber);
 
@@ -143,13 +143,12 @@ int delete_record_name(struct node **start, char* name){
             free(temp->name);
             free(temp->phonenumber);
             free(temp);
+            return 0;
         }
-        else{
-            prev = next;
-        }
+        prev = next;
         next = next->next;
     }
-
+    // no record found return -1 error
     return -1;
 }
 int delete_record(struct node **start, char* num){
@@ -186,11 +185,12 @@ void delete_directory(struct node **start){
     struct node* next = *start;
     while(next != NULL){
         //create a temp so we can free the memory
-        struct node *this = next;
+        struct node *tmp = next;
+
         next = next->next;
 
-        free(this->name);
-        free(this->phonenumber);
-        free(this);
+        free(tmp->name);
+        free(tmp->phonenumber);
+        free(tmp);
     }
 }
