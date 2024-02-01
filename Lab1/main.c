@@ -39,7 +39,7 @@ int main(){
         else if (strcmp(cmd, "find") == 0){
 
             char search_string[100];
-            scanf("%[^\n]s", search_string);
+            scanf("%s", search_string);
 
             struct node **nodes = malloc(sizeof(struct node*)*100);
             int count = query_directory_list(nodes,directory,search_string,-1);
@@ -56,12 +56,12 @@ int main(){
             scanf("%s", search_string);
 
             //search for phonenumber, if it is null search of name else not found
-            struct node *found = query_directory(directory,search_string,search_string,1);
+            struct node *found = query_directory(directory,search_string,1);
             if(found != NULL){
                 print_node(found);
             }
             else{
-                found = query_directory(directory,search_string,search_string,2);
+                found = query_directory(directory,search_string,2);
                 if(found != NULL){
                     print_node(found);
                 }

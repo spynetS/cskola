@@ -67,7 +67,7 @@ int delete_record(struct node **start, char* num);
  * - the pointer to the found record or NULL if not found
  */
 // ALfred Changed ** added char* num and char * name **
-struct node *query_directory(struct node *start, char* num, char *name, int option);
+struct node *query_directory(struct node *start, char *key, int option);
 
 /*
  * Deletes all records in the telephone directory
