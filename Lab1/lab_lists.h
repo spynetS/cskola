@@ -78,7 +78,6 @@ struct node *query_directory(struct node *start, char *key, int option);
  */
 void delete_directory(struct node **start);
 
-void print_node(struct node* node);
 /*
 ** Deletes all records conncted to the name provieded
 ** ## alfred added ##
@@ -86,5 +85,7 @@ void print_node(struct node* node);
 int delete_record_name(struct node **start, char* name);
 
 int query_directory_list(struct node** nodes, struct node *start, char* search, int option);
+
+void print_node(struct node* node);
 
 #endif  // LAB_LISTS_H
