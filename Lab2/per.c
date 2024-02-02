@@ -1,6 +1,21 @@
+// Alfred Roos 2024
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+typedef struct stack Stack;
+
+char peek(Stack *stack);
+char pop(Stack *stack);
+int push(Stack *stack, char item);
+
+int is_open(char ch, char* all);
+char get_closing(char open, char *all);
+int get_weight(char tag, char *all);
+void STOP(Stack* stack);
+
+// STACK IMPLEMENTATION **
 
 typedef struct stack{
     char *list;
@@ -8,12 +23,6 @@ typedef struct stack{
     int length;
 } Stack;
 
-// function if we find a error in the input string
-void STOP(Stack* stack){
-    puts("Invalid expression!");
-    free(stack->list);
-    exit(1);
-}
 char peek(Stack *stack){
     if(stack->length > 0){
         char to_ret = stack->list[stack->length-1];
@@ -43,6 +52,8 @@ int push(Stack *stack, char item){
     return 0;
 }
 
+// ** HELPER FUNCTIONS FOR THE PROGRAM **
+
 // 1 if it is a open
 // 0 if it is a closing bracket
 //-1 if it is neither
@@ -50,7 +61,7 @@ int is_open(char ch, char* all){
     for(int i = 0; i < strlen(all); i ++){
         // if the index is even it is a start tag
         // (the tags should be sort opentag,closetag,opentag,closetag)
-        if(all[i] == ch) return i % 2 == 0? 1:0;
+        if(all[i] == ch) return (i % 2 == 0) ? 1 : 0;
     }
     return -1;
 }
@@ -63,12 +74,31 @@ char get_closing(char open, char *all){
     }
     return 0;
 }
+// returns the index where the tag is found
+// because the tags list is sorted by greates 'weight' (low->high)
+// we can do this and compare
+int get_weight(char tag, char *all){
+    for(int i = 0; i < strlen(all); i++){
+        if(all[i] == tag){
+            return i;
+        }
+    }
+    return -1;
+}
+
+// exits the program
+void STOP(Stack* stack){
+    puts("Invalid expression!");
+    free(stack->list);
+    exit(1);
+}
 
 int main(){
     int size = 100;
-    printf("Enter an parenthese string (max 100 characters): ");
+    printf("Enter an parenthese string (max %d characters): ",size);
     char input[size];
-    char tags[] = {'(',')','[',']','{','}'};
+    // sorted bracket list by 'weight'
+    char tags[] = {'(',')','[',']','{','}','\0'};
 
     scanf("%s", input);
 
@@ -78,20 +108,30 @@ int main(){
     stack.length = 0;
     stack.list = malloc(sizeof(char)*size);
 
+
     for(int i = 0; i < strlen(input);i++){
         char curr = input[i];
-
+        char top = '\0'; // use in switch
         // check if the curr char is a open or closing tag
         switch(is_open(curr, tags)){
             case 1:
-                push(&stack, curr);
+                top = peek(&stack);
+                // if the one we want to add is 'less' then the top
+                // it is a error '[ cant be in ( but ( can be in ['
+                // ([])   ilegal
+                // [()]   legal
+                // {[()]} legal
+                // {([])} ilegal
+                if(top == 0 || get_weight(top,tags) >= get_weight(curr, tags)){
+                    push(&stack, curr);
+                }else{
+                    STOP(&stack);
+                }
                 break;
             case 0:
-                // we check the top
                 // if the top is empty error
                 // if the curr char is not closing tag to
-                // top error
-                char top = peek(&stack);
+                top = peek(&stack);
                 if(top != 0 && curr == get_closing(top,tags)){
                     pop(&stack);
                 }
