@@ -19,7 +19,8 @@ struct task{
 //  ct, the current time (in second) when the task is created.
 //return:
 //  the pointer that points to to the task
-struct task* create_task(int ct);
+// Alfred added int pages parameter
+struct task* create_task(int ct, int pages);
 
 
 #endif
