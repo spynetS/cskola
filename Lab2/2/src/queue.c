@@ -1,3 +1,4 @@
+// Alfred Roos 2024
 #include "../include/queue.h"
 #include <stdlib.h>
 #include <stdio.h>
