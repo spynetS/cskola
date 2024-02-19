@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "../include/task.h"
 #include "../include/queue.h"
 #include "../include/printer.h"
@@ -12,8 +13,7 @@
 #define TASK_IN_N_SECOND  2
 
 int main(){
-
-
+    srand(time(NULL));
     struct queue* my_queue = create_queue(); // init queue on heap
 
     //init our printer on stack
@@ -21,7 +21,7 @@ int main(){
     printer.page_rate = P;
     printer.current_task = NULL;
     printer.time_remaining = 0;
-
+    puts("Press enter to go forward in the simulation");
     // start simulation
     for(int i = 0; i < 10; i ++){
         printf("\nSIMULATION AT SECOND %d\n",i);
