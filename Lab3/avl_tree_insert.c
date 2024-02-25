@@ -322,6 +322,14 @@ struct node *delete(int data, struct node *tree, bool *ht_inc) {
     }
     return tree;
 }
+// free tree
+int free_tree(struct node *tree){
+    if(tree->left != NULL) free_tree(tree->left);
+    if(tree->right != NULL) free_tree(tree->right);
+    free(tree);
+    return 1;
+}
+
 int main()
 {
     bool ht_inc;
@@ -365,6 +373,7 @@ int main()
             printf("\n");
             break;
         case 3:
+            free_tree(root); // added free tree function
             exit(1);
         default:
             printf("Wrong option\n");
