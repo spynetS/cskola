@@ -348,7 +348,7 @@ int main()
         case 0:
             printf("Enter the value to be deleted : ");
             scanf("%d", &data);
-            delete(data,root,&ht_inc);
+            root = delete(data,root,&ht_inc);
             break;
 
         case 1:
