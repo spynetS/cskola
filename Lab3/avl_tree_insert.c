@@ -6,15 +6,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "./lab_binary_trees.h"
 
-// An enumeration emulating a boolean type
-typedef enum
-{
-    FALSE,
-    TRUE
-} bool;
-
-// A structure implementing a node of an AVL tree. 
+// A structure implementing a node of an AVL tree.
 struct node
 {
     int data;
@@ -247,77 +241,76 @@ struct node *delete(int data, struct node *tree, bool *ht_inc) {
     // Update balance factor after deletion
     if (*ht_inc == TRUE && tree != NULL) {
         printf("\nRebalanced %d %d\n",tree->data, tree->balance);
-        switch (tree->balance) {
-            case 1:
-                // Rebalance left
-                if (tree->left != NULL) {
-                    aptr = tree->left;
-                    if (aptr->balance > 0) {
-                        // LL rotation
-                        printf("Left to Left Rotation\n");
-                        tree->left = aptr->right;
-                        aptr->right = tree;
+        if(tree->balance > 0){
+            puts("rebalance left");
+            // Rebalance left
+            if (tree->left != NULL) {
+                aptr = tree->left;
+                if (aptr->balance >= 0) {
+                    // LL rotation
+                    printf("Left to Left Rotation\n");
+                    tree->left = aptr->right;
+                    aptr->right = tree;
+                    tree->balance = 0;
+                    aptr->balance = 0;
+                    tree = aptr;
+                } else if (aptr->balance < 0) {
+                    // LR rotation
+                    printf("Left to Right rotation\n");
+                    bptr = aptr->right;
+                    aptr->right = bptr->left;
+                    bptr->left = aptr;
+                    tree->left = bptr->right;
+                    bptr->right = tree;
+                    if (bptr->balance == 1)
+                        tree->balance = -1;
+                    else
                         tree->balance = 0;
+                    if (bptr->balance == -1)
+                        aptr->balance = 1;
+                    else
                         aptr->balance = 0;
-                        tree = aptr;
-                        *ht_inc = FALSE;
-                    } else if (aptr->balance < 0) {
-                        // LR rotation
-                        printf("Left to Right rotation\n");
-                        bptr = aptr->right;
-                        aptr->right = bptr->left;
-                        bptr->left = aptr;
-                        tree->left = bptr->right;
-                        bptr->right = tree;
-                        if (bptr->balance == 1)
-                            tree->balance = -1;
-                        else
-                            tree->balance = 0;
-                        if (bptr->balance == -1)
-                            aptr->balance = 1;
-                        else
-                            aptr->balance = 0;
-                        bptr->balance = 0;
-                        tree = bptr;
-                        *ht_inc = FALSE;
-                    }
+                    bptr->balance = 0;
+                    tree = bptr;
                 }
-                break;
-            case -1:
-                // Rebalance right
-                if (tree->right != NULL) {
-                    aptr = tree->right;
-                    if (aptr->balance < 0) {
-                        // RR rotation
-                        puts("Right to Right Rotation");
-                        tree->right = aptr->left;
-                        aptr->left = tree;
+                *ht_inc = FALSE;
+            }
+        }
+        if(tree->balance < 0){
+
+            puts("rebalance right");
+            // Rebalance right
+            if (tree->right != NULL) {
+                aptr = tree->right;
+                if (aptr->balance <= 0) {
+                    // RR rotation
+                    puts("Right to Right Rotation");
+                    tree->right = aptr->left;
+                    aptr->left = tree;
+                    tree->balance = 0;
+                    aptr->balance = 0;
+                    tree = aptr;
+                } else if (aptr->balance > 0) {
+                    // RL rotation
+                    puts("Right to Left Rotation");
+                    bptr = aptr->left;
+                    aptr->left = bptr->right;
+                    bptr->right = aptr;
+                    tree->right = bptr->left;
+                    bptr->left = tree;
+                    if (bptr->balance == -1)
+                        tree->balance = 1;
+                    else
                         tree->balance = 0;
+                    if (bptr->balance == 1)
+                        aptr->balance = -1;
+                    else
                         aptr->balance = 0;
-                        tree = aptr;
-                        *ht_inc = FALSE;
-                    } else if (aptr->balance > 0) {
-                        // RL rotation
-                        puts("Right to Left Rotation");
-                        bptr = aptr->left;
-                        aptr->left = bptr->right;
-                        bptr->right = aptr;
-                        tree->right = bptr->left;
-                        bptr->left = tree;
-                        if (bptr->balance == -1)
-                            tree->balance = 1;
-                        else
-                            tree->balance = 0;
-                        if (bptr->balance == 1)
-                            aptr->balance = -1;
-                        else
-                            aptr->balance = 0;
-                        bptr->balance = 0;
-                        tree = bptr;
-                        *ht_inc = FALSE;
-                    }
+                    bptr->balance = 0;
+                    tree = bptr;
                 }
-                break;
+                *ht_inc = FALSE;
+            }
         }
     }
     return tree;
