@@ -19,11 +19,12 @@ struct node
 
 struct node *search(struct node *ptr, int data)
 {
-    if (ptr != NULL)
+    if (ptr != NULL){
         if (data < ptr->data)
             ptr = search(ptr->left, data);
-        else if (data > ptr->data)
-            ptr = search(ptr->right, data);
+         else if(data > ptr->data)
+             ptr = search(ptr->right, data);
+    }
     return (ptr);
 }
 
