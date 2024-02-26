@@ -320,6 +320,7 @@ struct node *delete(int data, struct node *tree, bool *ht_inc) {
 }
 // free tree
 int free_tree(struct node *tree){
+    if(tree == NULL) return 0;
     if(tree->left != NULL) free_tree(tree->left);
     if(tree->right != NULL) free_tree(tree->right);
     free(tree);
