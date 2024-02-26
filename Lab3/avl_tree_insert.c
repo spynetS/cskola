@@ -191,6 +191,7 @@ void inorder(struct node *ptr)
     }
 }
 
+//Alfred roos 2024
 struct node *findLargestElement(struct node *tree){
     struct node *current = tree;
     while (current->right != NULL)
@@ -198,6 +199,7 @@ struct node *findLargestElement(struct node *tree){
     return current;
 }
 
+//Alfred roos 2024
 struct node *delete(int data, struct node *tree, bool *ht_inc) {
     struct node *aptr, *bptr;
 
