@@ -202,36 +202,42 @@ struct node *findLargestElement(struct node *tree){
 //Alfred roos 2024
 struct node *delete(int data, struct node *tree, bool *ht_inc) {
     struct node *aptr, *bptr;
-
+    // tree is null so value didnt exist
     if (tree == NULL) {
         puts("Does not exist");
         *ht_inc = FALSE;
         return NULL;
     }
-
+    //vale is greater then this go to right
     if (data > tree->data) {
         tree->right = delete(data, tree->right, ht_inc);
         if (*ht_inc == TRUE)
             tree->balance++;
     }
+    //value is less then this, go to left
     else if (data < tree->data) {
         tree->left = delete(data, tree->left, ht_inc);
         if (*ht_inc == TRUE)
             tree->balance--;
     }
+    //this node has the value
     else {
+        //if we have no child at left replace it with right
         if (tree->left == NULL) {
             struct node *tmp = tree->right;
             free(tree);
             *ht_inc = TRUE;
             return tmp;
         }
+        //if we have no child at right replace it with left
         else if (tree->right == NULL) {
             struct node *tmp = tree->left;
             free(tree);
             *ht_inc = TRUE;
             return tmp;
         }
+        // if we have 2 children we copy the value of the largest
+        // and then delete it the largest
         else {
             struct node *temp = findLargestElement(tree->left);
             tree->data = temp->data;
@@ -241,7 +247,7 @@ struct node *delete(int data, struct node *tree, bool *ht_inc) {
         }
     }
 
-    // Update balance factor after deletion
+    //rebalance
     if (*ht_inc == TRUE && tree != NULL) {
         printf("\nRebalanced %d %d\n",tree->data, tree->balance);
         if(tree->balance > 0){
