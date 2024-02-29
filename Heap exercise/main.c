@@ -16,24 +16,26 @@ struct maxheap{
 };
 
 //create an empty binary heap
-struct maxheap *create_heap();
+struct maxheap *create_heap(); //
 //insert an element
 //parameters: h, the pointer points to the heap.
 //            key, the element to be inserted
-void insert(struct maxheap *h, int key);
+void insert(struct maxheap *h, int key); //
 //delete an element
 //parameters: h, the pointer points to the heap.
-void delete(struct maxheap *h);
+void delete(struct maxheap *h); //
 //find the maximun value in a heap
 //parameters: h, the pointer points to the heap.
-int findmax(struct maxheap *h);
+int findmax(struct maxheap *h); //
 //destroy a heap and release the space allocated to the heap
 //parameters: h, the pointer points to the heap.
-void destroy_heap(struct maxheap *h);
+void destroy_heap(struct maxheap *h); //
 //prints the heap in the array
 //parameters: h, the pointer points to the heap.
-void print_heap(struct maxheap *h);
+void print_heap(struct maxheap *h); //
 
+int get_right(int index);
+int get_left(int index);
 
 struct maxheap *create_heap(){
     struct maxheap *new = malloc(sizeof(struct maxheap));
@@ -43,10 +45,56 @@ struct maxheap *create_heap(){
     return new;
 }
 
+int findmax(struct maxheap *h){
+    return h->elements[1];
+}
+
+void delete(struct maxheap *h){
+    // set root to last element and then removes the last
+    h->elements[1] = h->elements[h->last_i];
+    h->elements[h->last_i] = -1;
+    h->last_i --;
+
+    // balance after delete
+    // while children are greater then the root
+    // we swop it with the greatest child
+    int index = 1;
+    while(h->elements[index] < h->elements[get_left(index)] ||
+          h->elements[index] < h->elements[get_right(index)]){
+
+        if(h->elements[get_left(index)] > h->elements[get_right(index)]){
+            int child = get_left(index);
+
+            int tmp = h->elements[child];
+            h->elements[child] = h->elements[index];
+            h->elements[index] = tmp;
+
+            index = child;
+        }
+        else{
+            int child = get_right(index);
+
+            int tmp = h->elements[child];
+            h->elements[child] = h->elements[index];
+            h->elements[index] = tmp;
+
+            index = child;
+        }
+    }
+
+}
+
+void destroy_heap(struct maxheap *h){
+    free(h->elements);
+    h->last_i = 0;
+    free(h);
+}
 
 void insert(struct maxheap* h, int key){
     h->last_i+=1;
     h->elements[h->last_i] = key;
+
+    //blance tree
     if(h->last_i > 1){
         int index = h->last_i;
         printf("me i:%d<%d> parent i:%d <%d>\n",index,h->elements[index],index/2,h->elements[index/2]);
@@ -60,11 +108,24 @@ void insert(struct maxheap* h, int key){
     }
 }
 
-void print_d(struct maxheap *h,int index){
-    if((index*2+1) >= h->last_i){
-        printf("%d",h->elements[index]);
-    }else{
-        print_d(h,index*2+1);
+int get_left(int index){
+    return index * 2;
+}
+int get_right(int index){
+    return index * 2 + 1;
+}
+
+void print_tree(struct maxheap *h,int index, int level){
+    if(get_right(index) <= h->last_i){
+        print_tree(h,get_right(index),level+1);
+    }
+    puts("");
+    for(int i = 0; i < level; i ++){
+        printf("--");
+    }
+    printf("%d",h->elements[index]);
+    if(get_left(index) <= h->last_i){
+        print_tree(h,get_left(index),level+1);
     }
 }
 
@@ -73,7 +134,7 @@ void print_heap(struct maxheap *h){
         printf("%d,",h->elements[i]);
     }
     puts("");
-    print_d(h,1);
+    print_tree(h,1,1);
 }
 
 int main(void) {
@@ -105,15 +166,15 @@ int main(void) {
                 break;
 
             case 2:
-                //delete(heap);
+                delete(heap);
                 break;
 
             case 3:
-                //printf("The max value in the heap is %d. \n", findmax(heap));
+                printf("The max value in the heap is %d. \n", findmax(heap));
                 break;
 
             case 4:
-                /* destroy_heap(heap); */
+                destroy_heap(heap);
                 //exit when the heap is destroyed.
                 return 0;
 
@@ -123,6 +184,8 @@ int main(void) {
         }
     //while not choose to exit
     }while(option != 6);
+
+    destroy_heap(heap);
 
     return 0;
 }
