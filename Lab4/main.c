@@ -53,6 +53,14 @@ void traverse(struct node *tree, int level)
 
 
 // Alfred Roos 2024
+// Phsudo code
+// if tree is null we returns null
+//
+// else loop though keys and children
+// if value is this key return this tree
+// else if the value is greater then the key search in the right child of the value
+// else if the value is less then the key search in the left child of the value
+//
 struct node *search(struct node *tree, int val){
     if(tree == NULL) return NULL;
     // loop though all keys and children
