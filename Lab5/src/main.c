@@ -36,6 +36,7 @@ int main(){
 
         // if printer is not bussy and we have tasks we start the task
         if(!is_busy(&printer) && !is_empty(my_queue)){
+            // we create a new task with the value of the min in our queue (i create a new because when we delete we free the min)
             struct task* pt = create_task(findmin(my_queue)->time_stamp,findmin(my_queue)->pages);
             delete_heap(my_queue);
             start_next(&printer,pt);
