@@ -79,6 +79,7 @@ void deleteEdge(struct graph* graph, int source, int target){
                         next->next = NULL;
 
                     free(rem);
+                    return;
                 }
                 next = next->next;
             }
