@@ -26,7 +26,7 @@ int main(){
     int tasks = 0;
     puts("Press enter to go forward in the simulation");
     // start simulation
-    for(int i = 0; i < 100; i ++){
+    for(int i = 0; i < 10; i ++){
         printf("\nSIMULATION AT SECOND %d\n",i);
         puts(" ------------------------------");
         printer_status(&printer);
