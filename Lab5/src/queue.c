@@ -24,7 +24,7 @@ int parenti(int index){
 int weight(struct minheap *h, int index){
     if(index > h->last_i) return -1; //return -1 if index is out of bounds
 
-    return h->elements[index] != NULL ? h->elements[index]->pages : 6969;
+    return h->elements[index]->pages;
 }
 
 void print_tree(struct minheap *h,int index, int level){
@@ -55,7 +55,6 @@ struct minheap *create_heap(){
 int insert_heap(struct minheap *h, struct task *t){
     if(h->last_i >= MAX) return 0;
 
-    printf("inserted aws %d\n",t->pages);
 
     h->last_i += 1;
     h->elements[h->last_i] = t;
@@ -85,7 +84,7 @@ int delete_heap(struct minheap *h){
     while((weight(h, lefti(index)) < weight(h, index) && lefti(index) < h->last_i )||
           (weight(h, righti(index)) < weight(h, index) && righti(index) < h->last_i)){
 
-        int childi = lefti(index) > righti(index) ? lefti(index) : righti(index);
+        int childi = weight(h,lefti(index)) < weight(h,righti(index)) ? lefti(index) : righti(index);
         struct task *tmp = h->elements[childi];
         h->elements[childi] = h->elements[index];
         h->elements[index] = tmp;
@@ -108,7 +107,7 @@ void destroy_heap(struct minheap *h){
 
 void display_heap(struct minheap *h){
     for(int  i = 1; i <= h->last_i; i ++){
-        printf("%d,",weight(h, i),i,h->last_i);
+        printf("%d,",weight(h, i));
     }
     puts("");
     print_tree(h,1,1);

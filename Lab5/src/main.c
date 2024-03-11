@@ -13,6 +13,21 @@
 #define N  2
 #define TASK_IN_N_SECOND  2
 
+int main1(){
+    struct minheap* my_queue = create_heap(); // init queue on heap
+    insert_heap(my_queue,create_task(0,2));
+    insert_heap(my_queue,create_task(0,2));
+    insert_heap(my_queue,create_task(0,3));
+    insert_heap(my_queue,create_task(0,5));
+
+    display_heap(my_queue);
+    delete_heap(my_queue);
+
+    display_heap(my_queue);
+    destroy_heap(my_queue);
+
+    return 0;
+}
 
 int main(){
     srand(time(NULL));
