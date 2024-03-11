@@ -18,7 +18,7 @@
 void dijkstra(int source_node, int dist[], struct graph* graph);
 
 
-int m1ain(void)
+int main(void)
 {
     char *cities[GRAPH_NODE_N] = {"Jönköping", "Ulricehamn", "Värnamo", "Göteborg", "Helsingborg", "Ljungby", "Malmö"};
 

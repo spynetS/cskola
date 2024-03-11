@@ -146,9 +146,6 @@ void decreaseKey(struct minheap *h, int n, int dist){
 }
 
 struct minHeapNode *findmin(struct minheap *h){
-    if(h->cur_size == 0) {
-        puts("UNDERFLOW");
-        return NULL;
-    }
+    if(h->cur_size == 0) return NULL; //underflow
     return h->array[0];
 }
